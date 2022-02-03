@@ -1,0 +1,1 @@
+Powershell.exe -File db_start.ps1
