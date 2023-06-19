@@ -7,5 +7,6 @@ namespace ABDDB.Client.DBClient
 
         Task<TResult> GetAsync<TResult, TKey>(TKey key);
         Task PutAsync<TResult, TKey>(TKey key, TResult value);
+        Task DeleteAsync<TKey>(TKey key);
     }
 }

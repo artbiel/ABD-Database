@@ -19,6 +19,8 @@ var config = ConfigUtils.GetConfiguration(builder.Configuration, args);
 builder.ApplyConfiguration(config);
 builder.AddServices(config);
 
+Console.WriteLine($"Node {config.ClusterConfiguration.CurrentNode.Id} is stating...");
+
 var app = builder.Build();
 
 // Configuring HTTP Pipeline
@@ -36,6 +38,10 @@ app.MapGet("/store", [Authorize(AuthenticationSchemes = CookieAuthenticationDefa
 })
 .WithName("Get");
 
+app.MapDelete("/store", [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)] async (string key, [FromServices] IRequestCoordinator coordinator) =>
+    coordinator.DeleteAsync(key))
+    .WithName("Get");
+
 app.MapGet("/config", [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)] ([FromServices] IConfigurationService configurationService) =>
 {
     var configuration = configurationService.ClusterConfiguration;
@@ -50,7 +56,7 @@ app.MapGet("/config", [Authorize(AuthenticationSchemes = CookieAuthenticationDef
 })
 .WithName("GetClusterConfiguration");
 
-app.MapGet("/connect", async (string userName, string password, [FromServices] IAuthenticationService authenticationService) =>
+app.MapPost("/connect", async (string userName, string password, [FromServices] IAuthenticationService authenticationService) =>
 {
     return Results.Ok(await authenticationService.SignIn(userName, password));
 })

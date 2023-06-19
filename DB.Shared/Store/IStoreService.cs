@@ -11,5 +11,8 @@ namespace ABDDB.Shared.Store
 
         [OperationContract]
         Task PutAsync(PutRequest request, CallContext context = default);
+        
+        [OperationContract]
+        Task DeleteAsync(DeleteRequest request, CallContext context = default);
     }
 }

@@ -16,5 +16,8 @@ namespace ABDDB.Api.RequestCoordinator
 
         public Task PutAsync(string key, string value, CancellationToken token = default)
             => _coordinator.WriteAsync(key, value);
+
+        public Task DeleteAsync(string key, CancellationToken token = default)
+            => _coordinator.WriteAsync(key, null);
     }
 }

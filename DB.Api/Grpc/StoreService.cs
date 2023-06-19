@@ -25,5 +25,7 @@ namespace ABDDB.Api.Grpc
         public Task PutAsync(PutRequest request, CallContext context = default) =>
             _requestCoordinator.PutAsync(request.Key, request.Value, context.CancellationToken);
 
+        public Task DeleteAsync(DeleteRequest request, CallContext context = default) =>
+            _requestCoordinator.DeleteAsync(request.Key, context.CancellationToken);
     }
 }

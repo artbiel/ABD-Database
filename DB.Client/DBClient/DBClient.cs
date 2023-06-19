@@ -38,5 +38,14 @@ namespace ABDDB.Client.DBClient
             await store.PutAsync(new PutRequest { Key = serializedKey, Value = serializedValue });
             _logger.LogDebug($"Value \"{value}\" was put by key \"{key}\"");
         });
+
+        public Task DeleteAsync<TKey>(TKey key) => _channelPool.Execute(async (channel) =>
+        {
+            _logger.LogDebug($"Deleting record by key \"{key}\"...");
+            var serializedKey = JsonSerializer.Serialize(key);
+            var store = channel.CreateGrpcService<IStoreService>();
+            await store.DeleteAsync(new DeleteRequest { Key = serializedKey });
+            _logger.LogDebug($"Record by key \"{key}\" was deleted");
+        });
     }
 }

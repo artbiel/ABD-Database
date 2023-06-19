@@ -34,7 +34,8 @@ namespace ABDDB.Replication.Actors
 
 
             var writeTasks = replicas
-               .Select(r => r.WriteAsync(new WriteRequest { Key = key, TimestampModel = timestampModel, Value = value }))
+               .Select(r => r.WriteAsync(new WriteRequest 
+                   { Key = key, TimestampModel = timestampModel, Value = value }))
                .ToArray();
 
             await Combinators.WhenSome(writeTasks, writeQuorum, token);
